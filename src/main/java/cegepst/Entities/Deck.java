@@ -19,15 +19,15 @@ public class Deck {
     }
 
     public void getNewDeck() {
-        for(Suit suit : Suit.values()) {
-            for(Rank rank : Rank.values()) {
+        for (Suit suit : Suit.values()) {
+            for (Rank rank : Rank.values()) {
                 cards.add(new Card(rank, suit));
             }
         }
     }
 
     public void showDeck() {
-        for(Card card : cards) {
+        for (Card card : cards) {
             System.out.println(card.getCardName());
         }
     }

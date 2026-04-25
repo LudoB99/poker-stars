@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Messenger {
 
     public static void showCardsOnScreen(ArrayList<Card> cards) {
-        for(Card card : cards)  {
+        for (Card card : cards) {
             System.out.print(card.getCardName());
         }
     }
@@ -25,7 +25,7 @@ public class Messenger {
     }
 
     public static void showHand(Player player) {
-        for(Card card : player.getHand().getHand()) {
+        for (Card card : player.getHand().getHand()) {
             System.out.print(card.getCardName());
         }
     }

@@ -31,10 +31,18 @@ public class Card {
     }
 
     public int getCardRank() {
-        if(rank.equals(Rank.JACK.getRank())) {return 11;}
-        if(rank.equals(Rank.QUEEN.getRank())) {return 12;}
-        if(rank.equals(Rank.KING.getRank())) {return 13;}
-        if(rank.equals(Rank.ACE.getRank())) {return 14;}
+        if (rank.equals(Rank.JACK.getRank())) {
+            return 11;
+        }
+        if (rank.equals(Rank.QUEEN.getRank())) {
+            return 12;
+        }
+        if (rank.equals(Rank.KING.getRank())) {
+            return 13;
+        }
+        if (rank.equals(Rank.ACE.getRank())) {
+            return 14;
+        }
         return rank.getValue();
     }
 }

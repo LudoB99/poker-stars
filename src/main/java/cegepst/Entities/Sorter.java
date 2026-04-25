@@ -8,14 +8,11 @@ public class Sorter {
     public static List<Card> sortByRank(List<Card> cards) {
         Card[] cardsArray = cards.toArray(new Card[cards.size()]);
         int min_j;
-        for (int i = 0 ; i < cardsArray.length ; i ++ )
-        {
+        for (int i = 0; i < cardsArray.length; i++) {
             min_j = i;
 
-            for (int j = i+1 ; j < cardsArray.length ; j++ )
-            {
-                if (cardsArray[j].getRank().getValue() < cardsArray[min_j].getRank().getValue() )
-                {
+            for (int j = i + 1; j < cardsArray.length; j++) {
+                if (cardsArray[j].getRank().getValue() < cardsArray[min_j].getRank().getValue()) {
                     min_j = j;
                 }
             }
@@ -29,11 +26,11 @@ public class Sorter {
     public static List<Card> sortBySuit(List<Card> cards) {
         Card[] cardsArray = cards.toArray(new Card[cards.size()]);
         int min_j;
-        for (int i = 0 ; i < cardsArray.length ; i ++ ) {
+        for (int i = 0; i < cardsArray.length; i++) {
             min_j = i;
 
-            for (int j = i+1 ; j < cardsArray.length ; j++ ) {
-                if ( cardsArray[j].getSuit().getValue() < cardsArray[min_j].getSuit().getValue() ) {
+            for (int j = i + 1; j < cardsArray.length; j++) {
+                if (cardsArray[j].getSuit().getValue() < cardsArray[min_j].getSuit().getValue()) {
                     min_j = j;
                 }
             }

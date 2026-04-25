@@ -20,12 +20,12 @@ public class Player {
         return hole;
     }
 
-    public void receiveCard(Card card){
+    public void receiveCard(Card card) {
         hole.add(card);
     }
 
     public void reset() {
-        if(hand != null) {
+        if (hand != null) {
             hand.reset();
         }
         hole.clear();
@@ -36,18 +36,20 @@ public class Player {
     }
 
     public void setPlayerHand(ArrayList<Card> cards, String namedType) {
-        this.hand = new Hand(new ArrayList<Card>(Sorter.sortByRank(cards)), new WeightCalculator(cards,
-                namedType).getWeight(), Name.valueOf(namedType.toUpperCase()).getName());
+        this.hand = new Hand(new ArrayList<Card>(Sorter.sortByRank(cards)),
+                new WeightCalculator(cards, namedType).getWeight(), Name.valueOf(namedType.toUpperCase()).getName());
     }
 
     public Hand getHand() {
         return hand;
     }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
     public void showHole() {
-        for(Card card : hole) {
+        for (Card card : hole) {
             System.out.print(card.getCardName());
         }
         System.out.println();
@@ -55,8 +57,8 @@ public class Player {
 
     public ArrayList<Card> getValidCards() {
         ArrayList<Card> result = new ArrayList<Card>();
-        for(Card card : hole) {
-            if(card.isInHand()){
+        for (Card card : hole) {
+            if (card.isInHand()) {
                 result.add(card);
             }
         }

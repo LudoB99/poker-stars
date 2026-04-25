@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Validator {
 
-    public static boolean isFlush(List<Card> cards) { //TODO: Test
+    public static boolean isFlush(List<Card> cards) { // TODO: Test
         cards = Sorter.sortBySuit(cards);
         for (Card card : cards) {
             card.setInHand(true);
@@ -16,7 +16,7 @@ public class Validator {
                     ++counter;
                 }
 
-                if (counter == 4){
+                if (counter == 4) {
                     return true;
                 }
             }
@@ -36,12 +36,13 @@ public class Validator {
             if (i + 1 == cards.size()) {
                 return false;
             }
-            if (cards.get(i).getRank() == cards.get(i+1).getRank()) {
+            if (cards.get(i).getRank() == cards.get(i + 1).getRank()) {
                 cards.get(i).setInHand(true);
-                cards.get(i+1).setInHand(true);
+                cards.get(i + 1).setInHand(true);
                 ++counter;
             }
-            if (counter == 2) return true;
+            if (counter == 2)
+                return true;
         }
         return false;
     }
@@ -49,10 +50,11 @@ public class Validator {
     public static boolean isOnePair(List<Card> cards) {
         cards = Sorter.sortByRank(cards);
         for (int i = 0; i < cards.size(); ++i) {
-            if (i + 1 == cards.size()) return false;
-            if (cards.get(i).getRank() == cards.get(i+1).getRank()) {
+            if (i + 1 == cards.size())
+                return false;
+            if (cards.get(i).getRank() == cards.get(i + 1).getRank()) {
                 cards.get(i).setInHand(true);
-                cards.get(i+1).setInHand(true);
+                cards.get(i + 1).setInHand(true);
                 return true;
             }
         }
@@ -70,7 +72,8 @@ public class Validator {
                     ++counter;
                 }
 
-                if (counter == 2) return true;
+                if (counter == 2)
+                    return true;
             }
             reset(cards);
         }
@@ -90,10 +93,12 @@ public class Validator {
                     card2.setInHand(true);
                     counter++;
                     if (counter == 2) {
-                        threeSameCards = true; twoSameCards = false; twoSameCardValue = 0;
+                        threeSameCards = true;
+                        twoSameCards = false;
+                        twoSameCardValue = 0;
                     } else if (counter == 1) {
                         twoSameCards = true;
-                        if (card.getCardRank() > twoSameCardValue && ! threeSameCards) {
+                        if (card.getCardRank() > twoSameCardValue && !threeSameCards) {
                             twoSameCardValue = card.getCardRank();
                         }
                     }
@@ -106,7 +111,7 @@ public class Validator {
     }
 
     public static boolean isRoyalFlush(List<Card> cards) {
-        return isFlush(cards) && isStraight(cards)  && cards.get(cards.size() - 1).getRank() == Rank.ACE;
+        return isFlush(cards) && isStraight(cards) && cards.get(cards.size() - 1).getRank() == Rank.ACE;
     }
 
     public static boolean isFourOfAKind(List<Card> cards) {
@@ -118,7 +123,8 @@ public class Validator {
                     card2.setInHand(true);
                     ++counter;
                 }
-                if (counter == 3) return true;
+                if (counter == 3)
+                    return true;
             }
             reset(cards);
         }
@@ -154,7 +160,7 @@ public class Validator {
     }
 
     private static void reset(List<Card> cards) {
-        for(Card card : cards ){
+        for (Card card : cards) {
             card.setInHand(false);
         }
     }

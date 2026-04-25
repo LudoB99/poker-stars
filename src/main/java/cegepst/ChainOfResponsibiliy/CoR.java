@@ -3,7 +3,6 @@ package cegepst.ChainOfResponsibiliy;
 import cegepst.Entities.Card;
 import cegepst.Entities.Player;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public abstract class CoR {
     }
 
     private void reset(List<Card> cards) {
-        for(Card card : cards) {
+        for (Card card : cards) {
             card.setInHand(false);
         }
     }

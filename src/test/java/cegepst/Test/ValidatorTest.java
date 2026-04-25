@@ -30,7 +30,8 @@ class ValidatorTest extends Validator {
         cards.add(new Card(Rank.FIVE, Suit.HEART));
         cards.add(new Card(Rank.SIX, Suit.HEART));
         cards.add(new Card(Rank.SEVEN, Suit.HEART));
-        cards.add(new Card(Rank.EIGHT, Suit.HEART));;
+        cards.add(new Card(Rank.EIGHT, Suit.HEART));
+        ;
 
         assertTrue(Validator.isStraightFlush(cards));
     }

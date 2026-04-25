@@ -24,12 +24,18 @@ public class Game {
             dealer.startRound(player, opponent);
             Messenger.showPlayerHole(player);
             Messenger.showOpponentHole(opponent);
-            if(isFolding()) {break;}
+            if (isFolding()) {
+                break;
+            }
             dealer.showTurn();
-            if(isFolding()) {break;}
+            if (isFolding()) {
+                break;
+            }
             dealer.showRiver();
             dealer.endTurn(getWinner(player, opponent, dealer.getCommunity()));
-            if(isEnding()) {break;}
+            if (isEnding()) {
+                break;
+            }
         }
         Messenger.showEndMessage();
     }
@@ -41,16 +47,15 @@ public class Game {
         check.process(opponent);
         Messenger.showPlayerHand(player);
         Messenger.showOpponendHand(opponent);
-        if(player.getHand().getWeight() == opponent.getHand().getWeight()) {
+        if (player.getHand().getWeight() == opponent.getHand().getWeight()) {
             return null;
         }
 
-        if(player.getHand().getWeight() >= opponent.getHand().getWeight()) {
+        if (player.getHand().getWeight() >= opponent.getHand().getWeight()) {
             return player;
         }
         return opponent;
     }
-
 
     private boolean isEnding() {
         Messenger.askIfContinue();
@@ -62,7 +67,7 @@ public class Game {
         return input.nextInt() == 1;
     }
 
-    private ArrayList<Card> getBoard (ArrayList<Card> hole, ArrayList<Card> community) {
+    private ArrayList<Card> getBoard(ArrayList<Card> hole, ArrayList<Card> community) {
         ArrayList<Card> result = new ArrayList<Card>();
         result.addAll(hole);
         result.addAll(community);

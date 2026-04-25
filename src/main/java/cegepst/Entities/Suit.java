@@ -1,10 +1,7 @@
 package cegepst.Entities;
 
 public enum Suit {
-    HEART('♥', 3),
-    DIAMOND('♦', 2),
-    CLUB('♣', 1),
-    SPADE('♠', 4);
+    HEART('♥', 3), DIAMOND('♦', 2), CLUB('♣', 1), SPADE('♠', 4);
 
     private char suit;
     private int value;
@@ -18,5 +15,7 @@ public enum Suit {
         return suit;
     }
 
-    public int getValue() { return value; }
+    public int getValue() {
+        return value;
+    }
 }

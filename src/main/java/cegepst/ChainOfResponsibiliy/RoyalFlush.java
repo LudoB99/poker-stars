@@ -1,4 +1,5 @@
 package cegepst.ChainOfResponsibiliy;
+
 import cegepst.Entities.Card;
 import cegepst.Entities.Validator;
 
@@ -6,7 +7,7 @@ import java.util.ArrayList;
 
 public class RoyalFlush extends CoR {
 
-    public RoyalFlush(CoR next){
+    public RoyalFlush(CoR next) {
         super(next);
     }
 
