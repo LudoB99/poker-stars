@@ -1,2 +1,14 @@
-# Project exclude paths
-/out/
+# Maven build output
+target/
+
+# IntelliJ
+.idea/
+*.iml
+
+# VSCode
+.vscode/*
+!.vscode/launch.json
+
+# OS
+.DS_Store
+Thumbs.db

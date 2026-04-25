@@ -1,0 +1,11 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Poker Stars",
+            "request": "launch",
+            "mainClass": "cegepst.Main"
+        }
+    ]
+}
