@@ -1,4 +1,4 @@
-package cegepst.Entities;
+package cegepst.entities;
 
 public enum Suit {
     HEART('♥', 3), DIAMOND('♦', 2), CLUB('♣', 1), SPADE('♠', 4);

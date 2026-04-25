@@ -1,4 +1,4 @@
-package cegepst.Entities;
+package cegepst.entities;
 
 import java.util.Arrays;
 import java.util.List;

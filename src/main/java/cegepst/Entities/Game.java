@@ -1,8 +1,4 @@
-package cegepst.Entities;
-
-import cegepst.ChainOfResponsibiliy.CoR;
-import cegepst.ChainOfResponsibiliy.RoyalFlush;
-import cegepst.ChainOfResponsibiliy.StraightFlush;
+package cegepst.entities;
 
 import java.util.ArrayList;
 import java.util.Scanner;

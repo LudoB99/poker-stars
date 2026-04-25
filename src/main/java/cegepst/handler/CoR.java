@@ -1,10 +1,10 @@
-package cegepst.ChainOfResponsibiliy;
-
-import cegepst.Entities.Card;
-import cegepst.Entities.Player;
+package cegepst.handler;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cegepst.entities.Card;
+import cegepst.entities.Player;
 
 public abstract class CoR {
     private CoR next;

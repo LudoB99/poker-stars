@@ -1,10 +1,6 @@
-package cegepst.Entities;
-
-import cegepst.Entities.Card;
+package cegepst.entities;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class Player {
     private ArrayList<Card> hole;

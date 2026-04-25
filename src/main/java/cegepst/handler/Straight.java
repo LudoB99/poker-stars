@@ -1,9 +1,9 @@
-package cegepst.ChainOfResponsibiliy;
-
-import cegepst.Entities.Card;
-import cegepst.Entities.Validator;
+package cegepst.handler;
 
 import java.util.ArrayList;
+
+import cegepst.entities.Card;
+import cegepst.entities.Validator;
 
 public class Straight extends CoR {
 

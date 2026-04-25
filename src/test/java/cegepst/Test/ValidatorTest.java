@@ -1,10 +1,11 @@
 package cegepst.Test;
 
-import cegepst.Entities.Card;
-import cegepst.Entities.Rank;
-import cegepst.Entities.Suit;
-import cegepst.Entities.Validator;
 import org.junit.jupiter.api.Test;
+
+import cegepst.entities.Card;
+import cegepst.entities.Rank;
+import cegepst.entities.Suit;
+import cegepst.entities.Validator;
 
 import java.util.ArrayList;
 

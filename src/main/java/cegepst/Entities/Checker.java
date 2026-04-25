@@ -1,8 +1,6 @@
-package cegepst.Entities;
+package cegepst.entities;
 
-import cegepst.ChainOfResponsibiliy.*;
-
-import java.util.ArrayList;
+import cegepst.handler.*;
 
 public class Checker {
     CoR c1;

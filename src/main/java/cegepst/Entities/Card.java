@@ -1,4 +1,4 @@
-package cegepst.Entities;
+package cegepst.entities;
 
 public class Card {
     private Rank rank;

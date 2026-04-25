@@ -1,6 +1,6 @@
 package cegepst;
 
-import cegepst.Entities.Game;
+import cegepst.entities.Game;
 
 public class Main {
     public static void main(String[] args) {

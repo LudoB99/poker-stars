@@ -1,4 +1,4 @@
-package cegepst.Entities;
+package cegepst.entities;
 
 public enum Name {
     ROYALFLUSH("une quinte flush royale", 10000), STRAIGHTFLUSH("une quinte flush", 9000),
