@@ -15,28 +15,27 @@ import cegepst.domain.Suit;
  *
  * Evaluates 5-card poker hands and finds the best hand from 7 cards.
  *
- * Algorithm:
- * 1. Generate all C(7,5) = 21 possible 5-card combinations from 7 cards
- * 2. Evaluate each combination against hand types (Royal Flush → High Card)
- * 3. Return the best hand found
+ * Algorithm: 1. Generate all C(7,5) = 21 possible 5-card combinations from 7 cards 2. Evaluate each combination against
+ * hand types (Royal Flush → High Card) 3. Return the best hand found
  */
 public class HandEvaluator implements HandValidator {
 
     private static final HandEvaluator INSTANCE = new HandEvaluator();
 
     /**
-     * Singleton factory.
-     * Since this is stateless, we can reuse the same instance.
+     * Singleton factory. Since this is stateless, we can reuse the same instance.
      */
     public static HandEvaluator getInstance() {
         return INSTANCE;
     }
 
     /**
-     * Static convenience method for direct evaluation without needing the instance.
-     * Useful for quick one-off evaluations or in test code.
+     * Static convenience method for direct evaluation without needing the instance. Useful for quick one-off
+     * evaluations or in test code.
      *
-     * @param sevenCards the 7 cards to evaluate
+     * @param sevenCards
+     *            the 7 cards to evaluate
+     *
      * @return the best hand found
      */
     public static EvaluatedHand evaluate(List<Card> sevenCards) {
@@ -44,17 +43,17 @@ public class HandEvaluator implements HandValidator {
     }
 
     /**
-     * Instance method implementing HandValidator interface.
-     * Finds the best 5-card poker hand from 7 cards.
+     * Instance method implementing HandValidator interface. Finds the best 5-card poker hand from 7 cards.
      *
-     * @param sevenCards the 7 cards to evaluate (typically 2 hole + 5 community)
+     * @param sevenCards
+     *            the 7 cards to evaluate (typically 2 hole + 5 community)
+     *
      * @return the best hand found
      */
     @Override
     public EvaluatedHand evaluateBest(List<Card> sevenCards) {
         return doEvaluate(sevenCards);
     }
-
 
     /**
      * Internal evaluation logic shared by static and instance methods.
@@ -80,10 +79,11 @@ public class HandEvaluator implements HandValidator {
     }
 
     /**
-     * Evaluates a single 5-card hand.
-     * Tries hand types from best to worst and returns on first match.
+     * Evaluates a single 5-card hand. Tries hand types from best to worst and returns on first match.
      *
-     * @param fiveCards exactly 5 cards
+     * @param fiveCards
+     *            exactly 5 cards
+     *
      * @return the evaluated hand
      */
     private static EvaluatedHand evaluateFiveCardHand(List<Card> fiveCards) {
@@ -95,153 +95,81 @@ public class HandEvaluator implements HandValidator {
 
         // Royal Flush: A-K-Q-J-10, all same suit
         if (isRoyalFlush(sorted)) {
-            return new EvaluatedHand(
-                HandType.ROYAL_FLUSH,
-                sorted,
-                new int[] { 14 } // Ace high
+            return new EvaluatedHand(HandType.ROYAL_FLUSH, sorted, new int[] { 14 } // Ace high
             );
         }
 
         // Straight Flush: 5 consecutive cards, same suit
         if (isStraightFlush(sorted)) {
             int high = sorted.get(0).getRank();
-            return new EvaluatedHand(
-                HandType.STRAIGHT_FLUSH,
-                sorted,
-                new int[] { high }
-            );
+            return new EvaluatedHand(HandType.STRAIGHT_FLUSH, sorted, new int[] { high });
         }
 
         // Four of a Kind: 4 cards of one rank + 1 kicker
         if (rankCounts.containsValue(4)) {
-            int quad = rankCounts.entrySet().stream()
-                .filter(e -> e.getValue() == 4)
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElse(0);
-            int kicker = rankCounts.entrySet().stream()
-                .filter(e -> e.getValue() == 1)
-                .map(Map.Entry::getKey)
-                .max(Integer::compare)
-                .orElse(0);
-            return new EvaluatedHand(
-                HandType.FOUR_OF_A_KIND,
-                sorted,
-                new int[] { quad, kicker }
-            );
+            int quad = rankCounts.entrySet().stream().filter(e -> e.getValue() == 4).map(Map.Entry::getKey).findFirst()
+                    .orElse(0);
+            int kicker = rankCounts.entrySet().stream().filter(e -> e.getValue() == 1).map(Map.Entry::getKey)
+                    .max(Integer::compare).orElse(0);
+            return new EvaluatedHand(HandType.FOUR_OF_A_KIND, sorted, new int[] { quad, kicker });
         }
 
         // Full House: 3 cards of one rank + 2 cards of another
         if (rankCounts.containsValue(3) && rankCounts.containsValue(2)) {
-            int trips = rankCounts.entrySet().stream()
-                .filter(e -> e.getValue() == 3)
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElse(0);
-            int pair = rankCounts.entrySet().stream()
-                .filter(e -> e.getValue() == 2)
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElse(0);
-            return new EvaluatedHand(
-                HandType.FULL_HOUSE,
-                sorted,
-                new int[] { trips, pair }
-            );
+            int trips = rankCounts.entrySet().stream().filter(e -> e.getValue() == 3).map(Map.Entry::getKey).findFirst()
+                    .orElse(0);
+            int pair = rankCounts.entrySet().stream().filter(e -> e.getValue() == 2).map(Map.Entry::getKey).findFirst()
+                    .orElse(0);
+            return new EvaluatedHand(HandType.FULL_HOUSE, sorted, new int[] { trips, pair });
         }
 
         // Flush: all 5 cards same suit
         if (isFlush(sorted)) {
-            int[] kickers = sorted.stream()
-                .mapToInt(Card::getRank)
-                .toArray();
-            return new EvaluatedHand(
-                HandType.FLUSH,
-                sorted,
-                kickers
-            );
+            int[] kickers = sorted.stream().mapToInt(Card::getRank).toArray();
+            return new EvaluatedHand(HandType.FLUSH, sorted, kickers);
         }
 
         // Straight: 5 consecutive cards
         if (isStraight(sorted)) {
             int high = sorted.get(0).getRank();
-            return new EvaluatedHand(
-                HandType.STRAIGHT,
-                sorted,
-                new int[] { high }
-            );
+            return new EvaluatedHand(HandType.STRAIGHT, sorted, new int[] { high });
         }
 
         // Three of a Kind: 3 cards of one rank + 2 kickers
         if (rankCounts.containsValue(3)) {
-            int trips = rankCounts.entrySet().stream()
-                .filter(e -> e.getValue() == 3)
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElse(0);
-            int[] kickers = rankCounts.entrySet().stream()
-                .filter(e -> e.getValue() == 1)
-                .map(Map.Entry::getKey)
-                .sorted(Comparator.reverseOrder())
-                .mapToInt(Integer::intValue)
-                .toArray();
+            int trips = rankCounts.entrySet().stream().filter(e -> e.getValue() == 3).map(Map.Entry::getKey).findFirst()
+                    .orElse(0);
+            int[] kickers = rankCounts.entrySet().stream().filter(e -> e.getValue() == 1).map(Map.Entry::getKey)
+                    .sorted(Comparator.reverseOrder()).mapToInt(Integer::intValue).toArray();
             int[] result = new int[kickers.length + 1];
             result[0] = trips;
             System.arraycopy(kickers, 0, result, 1, kickers.length);
-            return new EvaluatedHand(
-                HandType.THREE_OF_A_KIND,
-                sorted,
-                result
-            );
+            return new EvaluatedHand(HandType.THREE_OF_A_KIND, sorted, result);
         }
 
         // Two Pair: 2 cards of one rank + 2 cards of another + 1 kicker
-        List<Integer> pairs = rankCounts.entrySet().stream()
-            .filter(e -> e.getValue() == 2)
-            .map(Map.Entry::getKey)
-            .sorted(Comparator.reverseOrder())
-            .toList();
+        List<Integer> pairs = rankCounts.entrySet().stream().filter(e -> e.getValue() == 2).map(Map.Entry::getKey)
+                .sorted(Comparator.reverseOrder()).toList();
         if (pairs.size() == 2) {
-            int kicker = rankCounts.entrySet().stream()
-                .filter(e -> e.getValue() == 1)
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElse(0);
-            return new EvaluatedHand(
-                HandType.TWO_PAIR,
-                sorted,
-                new int[] { pairs.get(0), pairs.get(1), kicker }
-            );
+            int kicker = rankCounts.entrySet().stream().filter(e -> e.getValue() == 1).map(Map.Entry::getKey)
+                    .findFirst().orElse(0);
+            return new EvaluatedHand(HandType.TWO_PAIR, sorted, new int[] { pairs.get(0), pairs.get(1), kicker });
         }
 
         // One Pair: 2 cards of one rank + 3 kickers
         if (pairs.size() == 1) {
             int pair = pairs.get(0);
-            int[] kickers = rankCounts.entrySet().stream()
-                .filter(e -> e.getValue() == 1)
-                .map(Map.Entry::getKey)
-                .sorted(Comparator.reverseOrder())
-                .mapToInt(Integer::intValue)
-                .toArray();
+            int[] kickers = rankCounts.entrySet().stream().filter(e -> e.getValue() == 1).map(Map.Entry::getKey)
+                    .sorted(Comparator.reverseOrder()).mapToInt(Integer::intValue).toArray();
             int[] result = new int[kickers.length + 1];
             result[0] = pair;
             System.arraycopy(kickers, 0, result, 1, kickers.length);
-            return new EvaluatedHand(
-                HandType.ONE_PAIR,
-                sorted,
-                result
-            );
+            return new EvaluatedHand(HandType.ONE_PAIR, sorted, result);
         }
 
         // High Card: no combinations, just 5 kickers
-        int[] kickers = sorted.stream()
-            .mapToInt(Card::getRank)
-            .toArray();
-        return new EvaluatedHand(
-            HandType.HIGH_CARD,
-            sorted,
-            kickers
-        );
+        int[] kickers = sorted.stream().mapToInt(Card::getRank).toArray();
+        return new EvaluatedHand(HandType.HIGH_CARD, sorted, kickers);
     }
 
     /**
@@ -270,7 +198,8 @@ public class HandEvaluator implements HandValidator {
                 i--;
             }
 
-            if (i < 0) break; // No more combinations
+            if (i < 0)
+                break; // No more combinations
 
             indices[i]++;
             for (int j = i + 1; j < 5; j++) {
@@ -282,8 +211,7 @@ public class HandEvaluator implements HandValidator {
     }
 
     /**
-     * Counts how many cards of each rank are present.
-     * Returns map: rank value → count (e.g., 14 → 2 for two Aces)
+     * Counts how many cards of each rank are present. Returns map: rank value → count (e.g., 14 → 2 for two Aces)
      */
     private static Map<Integer, Integer> countRanks(List<Card> cards) {
         Map<Integer, Integer> counts = new HashMap<>();
@@ -303,8 +231,7 @@ public class HandEvaluator implements HandValidator {
     }
 
     /**
-     * Checks if cards form a straight (5 consecutive ranks).
-     * Assumes cards are sorted by rank descending.
+     * Checks if cards form a straight (5 consecutive ranks). Assumes cards are sorted by rank descending.
      */
     private static boolean isStraight(List<Card> cards) {
         for (int i = 0; i < 4; i++) {

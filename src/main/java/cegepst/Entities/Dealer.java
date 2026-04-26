@@ -25,7 +25,7 @@ public class Dealer {
     }
 
     public void deal(List<Player> players) {
-        for(Player player : players) {
+        for (Player player : players) {
             player.reset();
         }
 
