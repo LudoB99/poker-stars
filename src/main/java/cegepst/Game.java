@@ -1,10 +1,12 @@
-package cegepst.entities;
+package cegepst;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import cegepst.domain.Card;
+import cegepst.entities.Dealer;
+import cegepst.entities.Player;
 import cegepst.ui.Printer;
 import cegepst.validation.EvaluatedHand;
 import cegepst.validation.HandEvaluator;
