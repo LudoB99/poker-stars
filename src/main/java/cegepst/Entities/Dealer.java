@@ -1,88 +1,60 @@
 package cegepst.entities;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import cegepst.domain.Card;
 
 public class Dealer {
+    private static final int COMMUNITY_SIZE = 5;
+    private static final int HOLE_SIZE = 2;
+    private static final int FLOP_SIZE = 3;
+    private static final int TURN_SIZE = 4;
+    private static final int RIVER_SIZE = 5;
     private Deck deck;
-    private ArrayList<Card> community;
+    private ArrayList<Card> community = new ArrayList<>();
 
     public Dealer() {
         deck = new Deck();
-        community = new ArrayList<>();
     }
 
-    public void startRound(Player player, Player opponent) {
-        deck.getNewDeck();
+    public void reset() {
+        community.clear();
+        deck.reset();
         deck.shuffle();
-        resetGame(player, opponent);
-        deal(player, opponent);
-        setupTable();
-        showFlop();
     }
 
-    public void endTurn(Player winner) {
-        if (winner != null) {
-            Messenger.announceWinner(winner);
-        } else {
-            Messenger.announceDraw();
+    public void deal(List<Player> players) {
+        for(Player player : players) {
+            player.reset();
         }
-    }
 
-    public void deal(Player player, Player opponent) {
-        int index = deck.getDeckSize() - 1;
-        for (int i = index; i > index - 4; --i) {
-            if (i % 2 == 0) {
-                player.receiveCard(deck.draw(i));
-            } else {
-                opponent.receiveCard(deck.draw(i));
+        reset();
+
+        for (int i = 0; i < HOLE_SIZE; ++i) {
+            for (Player player : players) {
+                player.receiveCard(deck.draw(deck.size() - 1));
             }
         }
-    }
 
-    public void setupTable() {
-        for (int i = 1; i < 8; ++i) {
-            if (i != 3 && i != 5) {
-                community.add(deck.draw(deck.getDeckSize() - i));
-            }
+        for (int i = 0; i < COMMUNITY_SIZE; ++i) {
+            community.add(deck.draw(deck.size() - 1));
         }
-    }
-
-    public void showFlop() {
-        System.out.print("Il y a sur la table : ");
-        for (short i = 0; i < 3; ++i) {
-            System.out.print(community.get(i).getCardName());
-        }
-        System.out.println();
-    }
-
-    public void showTurn() {
-        System.out.print("Je révèle la 4e carte: ");
-        for (short i = 0; i < 3; ++i) {
-            System.out.print(community.get(i).getCardName());
-        }
-        System.out.println(community.get(3).getCardName());
-    }
-
-    public void showRiver() {
-        System.out.print("Je révèle la 5e carte: ");
-        for (short i = 0; i < 4; ++i) {
-            System.out.print(community.get(i).getCardName());
-        }
-        System.out.println(community.get(4).getCardName());
-    }
-
-    public void showTable() {
-        for (short i = 0; i < 5; ++i) {
-            System.out.print(community.get(i).getCardName() + " ");
-        }
-    }
-
-    private void resetGame(Player player, Player opponent) {
-        player.reset();
-        opponent.reset();
     }
 
     public ArrayList<Card> getCommunity() {
         return community;
+    }
+
+    public int getFlopSize() {
+        return FLOP_SIZE;
+    }
+
+    public int getTurnSize() {
+        return TURN_SIZE;
+    }
+
+    public int getRiverSize() {
+        return RIVER_SIZE;
     }
 }

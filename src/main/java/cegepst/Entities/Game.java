@@ -1,72 +1,112 @@
 package cegepst.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class Game {
-    private Player player = new Player("vous");
-    private Player opponent = new Player("votre adversaire");
-    private Scanner input;
-    private Checker check;
+import cegepst.domain.Card;
+import cegepst.ui.Printer;
+import cegepst.validation.EvaluatedHand;
+import cegepst.validation.HandEvaluator;
+import cegepst.validation.HandValidator;
 
-    public Game() {
-        input = new Scanner(System.in);
-        check = new Checker();
-    }
+public class Game {
+    private Scanner input = new Scanner(System.in);
+    private HandValidator evaluator = new HandEvaluator();
+    private Dealer dealer = new Dealer();
+    private Player player = new Player("VOUS");
+    private Player opponent = new Player("ADVERSAIRE");
 
     public void start() {
+        Printer.printWelcome();
         while (true) {
-            Dealer dealer = new Dealer();
-            dealer.startRound(player, opponent);
-            Messenger.showPlayerHole(player);
-            Messenger.showOpponentHole(opponent);
-            if (isFolding()) {
-                break;
-            }
-            dealer.showTurn();
-            if (isFolding()) {
-                break;
-            }
-            dealer.showRiver();
-            dealer.endTurn(getWinner(player, opponent, dealer.getCommunity()));
-            if (isEnding()) {
+            playRound();
+            if (!wantToContinue()) {
                 break;
             }
         }
-        Messenger.showEndMessage();
+        Printer.printEndMessage();
     }
 
-    private Player getWinner(Player player, Player opponent, ArrayList<Card> community) {
-        player.setHole(getBoard(player.getHole(), community));
-        opponent.setHole(getBoard(opponent.getHole(), community));
-        check.process(player);
-        check.process(opponent);
-        Messenger.showPlayerHand(player);
-        Messenger.showOpponendHand(opponent);
-        if (player.getHand().getWeight() == opponent.getHand().getWeight()) {
-            return null;
+    private void playRound() {
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+        players.add(opponent);
+        dealer.deal(players);
+
+        Printer.printHoleCards(player.name, player.getHole());
+        if (playerFolds("Continuer? (o/n): ")) {
+            System.out.println(opponent.name + " gagne!");
+            return;
         }
 
-        if (player.getHand().getWeight() >= opponent.getHand().getWeight()) {
-            return player;
+        System.out.println("\n=== FLOP ===");
+        Printer.printCommunityCards(dealer.getCommunity(), dealer.getFlopSize());
+        if (playerFolds("Continuer? (o/n): ")) {
+            System.out.println(opponent.name + " gagne!");
+            return;
         }
-        return opponent;
+
+        System.out.println("\n=== TURN ===");
+        Printer.printCommunityCards(dealer.getCommunity(), dealer.getTurnSize());
+        if (playerFolds("Continuer? (o/n): ")) {
+            System.out.println(opponent.name + " gagne!");
+            return;
+        }
+
+        System.out.println("\n=== RIVER ===");
+        Printer.printCommunityCards(dealer.getCommunity(), dealer.getRiverSize());
+
+        determineAndShowWinner();
+
+        player.reset();
+        opponent.reset();
+        dealer.reset();
     }
 
-    private boolean isEnding() {
-        Messenger.askIfContinue();
-        return input.next().equals("n");
+    private void determineAndShowWinner() {
+        System.out.println("\n=== ABATTAGE ===");
+
+        List<Card> playerCards = new ArrayList<>(player.getHole());
+        playerCards.addAll(dealer.getCommunity());
+
+        List<Card> opponentCards = new ArrayList<>(opponent.getHole());
+        opponentCards.addAll(dealer.getCommunity());
+
+        EvaluatedHand playerHand = evaluator.evaluateBest(playerCards);
+        EvaluatedHand opponentHand = evaluator.evaluateBest(opponentCards);
+
+        System.out.println(player.name + " cartes: " + formatCards(player.getHole()));
+        System.out.println(player.name + " main: " + playerHand.type().getDisplayName());
+
+        System.out.println(opponent.name + " cartes: " + formatCards(opponent.getHole()));
+        System.out.println(opponent.name + " main: " + opponentHand.type().getDisplayName());
+
+        int comparison = playerHand.compareTo(opponentHand);
+        if (comparison > 0) {
+            System.out.println("\n🎉 " + player.name + " gagne! 🎉");
+        } else if (comparison < 0) {
+            System.out.println("\n🎉 " + opponent.name + " gagne! 🎉");
+        } else {
+            System.out.println("\n🤝 Égalité! 🤝");
+        }
     }
 
-    private boolean isFolding() {
-        Messenger.askIfFolding();
-        return input.nextInt() == 1;
+    private boolean playerFolds(String prompt) {
+        System.out.print(prompt);
+        return !input.next().toLowerCase().startsWith("o");
     }
 
-    private ArrayList<Card> getBoard(ArrayList<Card> hole, ArrayList<Card> community) {
-        ArrayList<Card> result = new ArrayList<Card>();
-        result.addAll(hole);
-        result.addAll(community);
-        return result;
+    private boolean wantToContinue() {
+        System.out.print("\nJouer une autre main? (o/n): ");
+        return input.next().toLowerCase().startsWith("o");
+    }
+
+    private String formatCards(List<Card> cards) {
+        StringBuilder sb = new StringBuilder();
+        for (Card card : cards) {
+            sb.append(card).append(" ");
+        }
+        return sb.toString().trim();
     }
 }

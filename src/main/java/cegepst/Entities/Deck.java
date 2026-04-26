@@ -3,22 +3,27 @@ package cegepst.entities;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import cegepst.domain.Card;
+import cegepst.domain.Rank;
+import cegepst.domain.Suit;
+
 public class Deck {
     private ArrayList<Card> cards;
-    private static Deck instance = null;
 
     public Deck() {
         cards = new ArrayList<>();
-        getNewDeck();
+        reset();
     }
 
     public Card draw(int i) {
-        Card card = cards.get(i);
-        cards.remove(i);
-        return card;
+        if (i >= cards.size()) {
+            return null;
+        }
+        return cards.remove(i);
     }
 
-    public void getNewDeck() {
+    public void reset() {
+        cards.clear();
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
                 cards.add(new Card(rank, suit));
@@ -28,20 +33,15 @@ public class Deck {
 
     public void showDeck() {
         for (Card card : cards) {
-            System.out.println(card.getCardName());
+            System.out.println(card);
         }
-    }
-
-    public void sort() {
-        cards.clear();
-        getNewDeck();
     }
 
     public void shuffle() {
         Collections.shuffle(cards);
     }
 
-    public int getDeckSize() {
+    public int size() {
         return cards.size();
     }
 }
