@@ -78,7 +78,7 @@
                             <excludes>
                                 <exclude>cegepst/ui/**</exclude>
                                 <exclude>cegepst/Main</exclude>
-                                <exclude>cegepst/entities/Game</exclude>
+                                <exclude>cegepst/Game</exclude>
                             </excludes>
                         </configuration>
                     </execution>
