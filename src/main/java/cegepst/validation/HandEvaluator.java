@@ -10,54 +10,23 @@ import cegepst.domain.Card;
 import cegepst.domain.HandType;
 import cegepst.domain.Suit;
 
-/**
- * Standard Texas Hold'em hand evaluation.
- *
- * Evaluates 5-card poker hands and finds the best hand from 7 cards.
- *
- * Algorithm: 1. Generate all C(7,5) = 21 possible 5-card combinations from 7 cards 2. Evaluate each combination against
- * hand types (Royal Flush → High Card) 3. Return the best hand found
- */
 public class HandEvaluator implements HandValidator {
 
     private static final HandEvaluator INSTANCE = new HandEvaluator();
 
-    /**
-     * Singleton factory. Since this is stateless, we can reuse the same instance.
-     */
     public static HandEvaluator getInstance() {
         return INSTANCE;
     }
 
-    /**
-     * Static convenience method for direct evaluation without needing the instance. Useful for quick one-off
-     * evaluations or in test code.
-     *
-     * @param sevenCards
-     *            the 7 cards to evaluate
-     *
-     * @return the best hand found
-     */
     public static EvaluatedHand evaluate(List<Card> sevenCards) {
         return INSTANCE.evaluateBest(sevenCards);
     }
 
-    /**
-     * Instance method implementing HandValidator interface. Finds the best 5-card poker hand from 7 cards.
-     *
-     * @param sevenCards
-     *            the 7 cards to evaluate (typically 2 hole + 5 community)
-     *
-     * @return the best hand found
-     */
     @Override
     public EvaluatedHand evaluateBest(List<Card> sevenCards) {
         return doEvaluate(sevenCards);
     }
 
-    /**
-     * Internal evaluation logic shared by static and instance methods.
-     */
     private EvaluatedHand doEvaluate(List<Card> sevenCards) {
         if (sevenCards == null || sevenCards.size() != 7) {
             throw new IllegalArgumentException("Must evaluate exactly 7 cards");
@@ -78,14 +47,6 @@ public class HandEvaluator implements HandValidator {
         return best;
     }
 
-    /**
-     * Evaluates a single 5-card hand. Tries hand types from best to worst and returns on first match.
-     *
-     * @param fiveCards
-     *            exactly 5 cards
-     *
-     * @return the evaluated hand
-     */
     private static EvaluatedHand evaluateFiveCardHand(List<Card> fiveCards) {
         // Sort by rank descending for easier pattern matching
         List<Card> sorted = new ArrayList<>(fiveCards);
@@ -172,9 +133,6 @@ public class HandEvaluator implements HandValidator {
         return new EvaluatedHand(HandType.HIGH_CARD, sorted, kickers);
     }
 
-    /**
-     * Generates all C(7,5) = 21 possible 5-card combinations from 7 cards.
-     */
     private static List<List<Card>> generate5CardCombinations(List<Card> sevenCards) {
         List<List<Card>> combinations = new ArrayList<>();
         int[] indices = new int[5];
@@ -210,9 +168,6 @@ public class HandEvaluator implements HandValidator {
         return combinations;
     }
 
-    /**
-     * Counts how many cards of each rank are present. Returns map: rank value → count (e.g., 14 → 2 for two Aces)
-     */
     private static Map<Integer, Integer> countRanks(List<Card> cards) {
         Map<Integer, Integer> counts = new HashMap<>();
         for (Card card : cards) {
@@ -222,17 +177,11 @@ public class HandEvaluator implements HandValidator {
         return counts;
     }
 
-    /**
-     * Checks if all 5 cards are the same suit.
-     */
     private static boolean isFlush(List<Card> cards) {
         Suit firstSuit = cards.get(0).suit;
         return cards.stream().allMatch(c -> c.suit == firstSuit);
     }
 
-    /**
-     * Checks if cards form a straight (5 consecutive ranks). Assumes cards are sorted by rank descending.
-     */
     private static boolean isStraight(List<Card> cards) {
         for (int i = 0; i < 4; i++) {
             int expected = cards.get(i).getRank() - 1;
@@ -244,16 +193,10 @@ public class HandEvaluator implements HandValidator {
         return true;
     }
 
-    /**
-     * Checks if cards form a straight flush.
-     */
     private static boolean isStraightFlush(List<Card> cards) {
         return isFlush(cards) && isStraight(cards);
     }
 
-    /**
-     * Checks if cards form a royal flush (A-K-Q-J-10 of same suit).
-     */
     private static boolean isRoyalFlush(List<Card> cards) {
         if (!isFlush(cards) || !isStraight(cards)) {
             return false;

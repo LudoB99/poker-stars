@@ -1,6 +1,6 @@
 # Poker Stars
 
-[![Java CI with Maven](https://github.com/LudoB99/poker-stars/actions/workflows/maven.yml/badge.svg)](https://github.com/LudoB99/poker-stars/actions/workflows/maven.yml)
+[![build](https://github.com/LudoB99/poker-stars/actions/workflows/maven.yml/badge.svg)](https://github.com/LudoB99/poker-stars/actions/workflows/maven.yml)
 [![codecov](https://codecov.io/gh/LudoB99/poker-stars/graph/badge.svg)](https://codecov.io/gh/LudoB99/poker-stars)
 
 A Texas Hold'em poker game implemented in Java 21 with Maven.
