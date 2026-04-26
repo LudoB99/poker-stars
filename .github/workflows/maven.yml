@@ -32,6 +32,12 @@ jobs:
       with:
         files: target/surefire-reports/*.xml
 
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        files: target/site/jacoco/jacoco.xml
+        fail_ci_if_error: true
+
     # Uploads dependency graph to improve Dependabot alert quality
     - name: Update dependency graph
       uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6 # v0.1.4
