@@ -80,7 +80,6 @@
                         <configuration>
                             <excludes>
                                 <exclude>cegepst/ui/**</exclude>
-                                <exclude>cegepst/Game.class</exclude>
                                 <exclude>cegepst/Main.class</exclude>
                             </excludes>
                         </configuration>
