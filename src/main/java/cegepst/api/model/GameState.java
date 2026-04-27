@@ -6,8 +6,6 @@ import cegepst.domain.Card;
 import cegepst.entities.Dealer;
 import cegepst.entities.Player;
 
-
-
 public class GameState {
     public static final int STARTING_CHIPS = 1000;
     public static final int BLIND = 10;

@@ -16,7 +16,6 @@ import cegepst.validation.HandEvaluator;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class GameService {
     private final Map<String, GameState> sessions = new ConcurrentHashMap<>();
@@ -114,15 +113,14 @@ public class GameService {
         List<Card> communityBest = new ArrayList<>(humanBest);
         communityBest.addAll(botBest);
 
-        List<CardDto> humanCards = state.getHumanPlayer().getHole().stream()
-                .map(c -> toCardDto(c, humanBest)).toList();
+        List<CardDto> humanCards = state.getHumanPlayer().getHole().stream().map(c -> toCardDto(c, humanBest)).toList();
 
         List<CardDto> botCards = state.getPhase() == GamePhase.SHOWDOWN
                 ? state.getBotPlayer().getHole().stream().map(c -> toCardDto(c, botBest)).toList()
                 : List.of(hiddenCard(), hiddenCard());
 
-        List<CardDto> communityCards = state.visibleCommunityCards().stream()
-                .map(c -> toCardDto(c, communityBest)).toList();
+        List<CardDto> communityCards = state.visibleCommunityCards().stream().map(c -> toCardDto(c, communityBest))
+                .toList();
 
         String phaseDisplay = switch (state.getPhase()) {
         case PRE_FLOP -> "Pré-Flop";
