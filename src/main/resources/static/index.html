@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Stars</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>♠ POKER STARS ♦</header>
+
+    <div id="welcome" class="welcome">
+        <h2>Bienvenue</h2>
+        <p>Vous commencez avec 1 000 jetons.</p>
+        <button class="btn btn-start" onclick="startGame()">Nouvelle Partie</button>
+    </div>
+
+    <div id="game-ui" class="d-none">
+        <div class="table">
+            <div class="player-area">
+                <div class="player-info">
+                    <span class="player-name">ADVERSAIRE</span>
+                    <span class="chip-count" id="bot-chips">1000 jetons</span>
+                </div>
+                <div class="cards" id="bot-cards"></div>
+            </div>
+            <div class="community-area">
+                <div class="cards" id="community-cards"></div>
+                <span class="phase-badge" id="phase-label">Pré-Flop</span>
+            </div>
+
+            <div class="player-area">
+                <div class="cards" id="human-cards"></div>
+                <div class="player-info">
+                    <span class="chip-count" id="human-chips">1000 jetons</span>
+                    <span class="player-name">VOUS</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="pot-display" id="pot-amount">Pot : 0 jetons</div>
+            <div class="action-buttons">
+                <button class="btn btn-fold" id="btn-fold" onclick="performAction('fold')">Se coucher</button>
+                <button class="btn btn-check" id="btn-check" onclick="performAction('check')">Passer</button>
+                <button class="btn btn-raise" id="btn-raise" onclick="performAction('raise')">Relancer +20</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-overlay" class="overlay d-none">
+        <div class="overlay-box">
+            <div id="result-title" class="result-title"></div>
+            <div id="result-hands" class="result-hands d-none"></div>
+            <div class="chip-summary" id="chip-summary"></div>
+            <button class="btn btn-start" onclick="playAgain()">Rejouer</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
